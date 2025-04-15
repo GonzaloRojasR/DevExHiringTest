@@ -1,4 +1,4 @@
-name: Terraform Infrastructure Pipeline
+name: CI/CD Deploy Infrastructure
 
 on:
   workflow_dispatch:
