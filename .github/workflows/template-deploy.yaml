@@ -1,0 +1,23 @@
+name: Template - Deploy
+
+on:
+  workflow_call:
+    inputs:
+      TEST:
+        required: true
+        type: string
+    secrets:
+      TEST_S:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      SUPER_SECRET: ${{ secrets.TEST_S }}
+      VAR_TEST: ${{ inputs.TEST }}
+    steps:
+      - run: |
+          echo "VAR: $VAR_TEST"
+          echo "SECRET: [$SUPER_SECRET]"
+          echo "LENGTH: ${#SUPER_SECRET}"

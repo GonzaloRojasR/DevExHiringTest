@@ -1,0 +1,40 @@
+name: Template - Docker
+
+on: workflow_call
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app-build
+          path: app/
+
+      - name: Show build files
+        run: ls -R app
+
+      - name: Build imagen docker
+        run: |
+          echo "IMAGE_NAME=$(jq -r .name app/package.json)" >> $GITHUB_ENV
+          docker build -t $IMAGE_NAME:latest -f app/Dockerfile app/
+
+#      - name: Login en ECR
+#        run: |
+#          aws ecr get-login-password | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+#
+#      - name: Taggear imagen para ECR
+#        run: |
+#          docker tag $IMAGE_NAME:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest
+#
+#      - name: Push a ECR
+#        run: |
+#          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest

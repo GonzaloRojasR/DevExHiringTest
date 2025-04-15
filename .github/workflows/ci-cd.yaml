@@ -1,0 +1,30 @@
+name: Pipeline despliegue
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-test:
+    uses: ./.github/workflows/template-build-test.yaml
+
+  docker:
+    needs: build-test
+    uses: ./.github/workflows/template-build-image.yaml
+
+  kustomize:
+    needs: docker
+    uses: ./.github/workflows/template-kustomization.yaml
+
+  deploy:
+    needs: kustomize
+    uses: ./.github/workflows/template-deploy.yaml
+    secrets:
+      TEST_S: ${{ secrets.TEST_S }}
+    with:
+      TEST: ${{ vars.TEST }}
+    #secrets:
+    #  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #with:
+    #  IMAGE_TAG: ${{ github.sha }}

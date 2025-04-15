@@ -1,0 +1,10 @@
+resources:
+  - ../base
+
+patchesStrategicMerge:
+  - patch-env.yaml
+
+images:
+  - name: desafio-app
+    newName: desafio-app
+    newTag: latest
