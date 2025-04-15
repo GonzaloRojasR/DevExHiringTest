@@ -1,42 +1,40 @@
-name: CI/CD Infraestructura
+name: Terraform Infrastructure Pipeline
 
 on:
   workflow_dispatch:
-    inputs:
-      environment:
-        description: "Ambiente a desplegar"
-        required: true
-        default: "dev"
 
 jobs:
   terraform:
+    name: Terraform Deployment
     runs-on: ubuntu-latest
+
     defaults:
       run:
-        working-directory: infra/terraform
+        working-directory: infra/terraform/environments/dev
 
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_DEFAULT_REGION: us-east-1
 
     steps:
-      - name: Checkout código
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Instalar Terraform
-        uses: hashicorp/setup-terraform@v2
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.6.6
 
-      - name: Inicializar Terraform
+      - name: Terraform Init
         run: terraform init
 
-      - name: Validar configuración
+      - name: Terraform Validate
         run: terraform validate
 
-      - name: Planificar cambios
-        run: terraform plan -var-file=environments/${{ github.event.inputs.environment }}/terraform.tfvars -out=tfplan
+      - name: Terraform Plan
+        run: terraform plan -var-file="dev.tfvars"
 
-      - name: Aplicar cambios
-        run: terraform apply -auto-approve tfplan
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        run: terraform apply -auto-approve -var-file="dev.tfvars"

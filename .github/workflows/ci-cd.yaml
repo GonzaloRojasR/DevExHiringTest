@@ -1,4 +1,4 @@
-name: Pipeline despliegue
+name: CI/CD Despliegue
 
 on:
   push:
