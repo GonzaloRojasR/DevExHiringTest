@@ -1,6 +1,11 @@
 name: Template - Docker
 
-on: workflow_call
+on:
+  workflow_call:
+    inputs:
+      image_name:
+        required: true
+        type: string
 
 jobs:
   docker:
@@ -23,9 +28,7 @@ jobs:
         run: ls -R app
 
       - name: Build imagen docker
-        run: |
-          echo "IMAGE_NAME=$(jq -r .name app/package.json)" >> $GITHUB_ENV
-          docker build -t $IMAGE_NAME:latest -f app/Dockerfile app/
+        run: docker build -t ${{ inputs.image_name }}:latest -f app/Dockerfile app/
 
 #      - name: Login en ECR
 #        run: |
@@ -33,8 +36,8 @@ jobs:
 #
 #      - name: Taggear imagen para ECR
 #        run: |
-#          docker tag $IMAGE_NAME:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest
+#          docker tag ${{ inputs.image_name }}:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/${{ inputs.image_name }}:latest
 #
 #      - name: Push a ECR
 #        run: |
-#          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest
+#          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/${{ inputs.image_name }}:latest

@@ -11,6 +11,13 @@ jobs:
   docker:
     needs: build-test
     uses: ./.github/workflows/template-build-image.yaml
+    with:
+      image_name: ${{ needs.build-test.outputs.image_name }}
+    #secrets:
+    #  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #  AWS_REGION: ${{ secrets.AWS_REGION }}
+    #  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
 
   kustomize:
     needs: docker
@@ -22,9 +29,4 @@ jobs:
     secrets:
       TEST_S: ${{ secrets.TEST_S }}
     with:
-      TEST: ${{ vars.TEST }}
-    #secrets:
-    #  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #with:
-    #  IMAGE_TAG: ${{ github.sha }}
+      TEST: ${{ vars.TEST }}    
