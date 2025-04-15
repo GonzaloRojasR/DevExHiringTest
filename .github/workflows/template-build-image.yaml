@@ -50,15 +50,14 @@ jobs:
           IMAGE_SIZE=$(docker image inspect $IMAGE_ID --format='{{.Size}}')
           echo "Tamaño aproximado: $((IMAGE_SIZE / 1000000)) MB"
 
-#      - name: Login en ECR
-#        run: |
-#          aws ecr get-login-password | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-#
-#      - name: Taggear imagen para ECR
-#        run: |
-#          docker tag $name:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$name:latest
-#
-#      - name: Push a ECR
-#        run: |
-#          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$name:latest
-#
+      - name: Login en ECR
+        run: |
+          aws ecr get-login-password | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+
+      - name: Taggear imagen para ECR
+        run: |
+          docker tag $name:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$name:latest
+
+      - name: Push a ECR
+        run: |
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$name:latest
