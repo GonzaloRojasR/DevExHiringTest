@@ -30,7 +30,7 @@ jobs:
           echo "name=$NAME" >> $GITHUB_ENV
 
       - name: Mostrar nombre leído
-        run: echo "Nombre leído de package.json: $name"
+        run: echo "Nombre leído de package.json -> $name"
 
       - name: Build imagen Docker
         run: docker build -t $name:latest -f app/Dockerfile app/
