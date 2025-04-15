@@ -13,7 +13,6 @@ jobs:
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
       
-
     steps:
       - uses: actions/checkout@v3
 
@@ -29,8 +28,8 @@ jobs:
           NAME=$(jq -r .name app/package.json | sed 's/@//;s#/#-#g')
           echo "name=$NAME" >> $GITHUB_ENV
 
-      - name: Mostrar nombre leído
-        run: echo "Nombre leído de package.json -> $name"
+      - name: Teste image name
+        run: echo "Nombre leido de package.json -> $name"
 
       - name: Build imagen Docker
         run: docker build -t $name:latest -f app/Dockerfile app/
