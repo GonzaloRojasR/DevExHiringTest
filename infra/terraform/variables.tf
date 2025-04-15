@@ -1,4 +1,9 @@
 variable "region" {
-  description = "Región de AWS"
+  description = "AWS Region"
+  type        = string
+}
+
+variable "ecr_name" {
+  description = "ECR repository name"
   type        = string
 }

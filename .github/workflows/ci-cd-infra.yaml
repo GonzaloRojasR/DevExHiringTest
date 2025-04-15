@@ -1,4 +1,4 @@
-name: CI/CD Infrastructure
+name: Terraform Infrastructure Pipeline
 
 on:
   workflow_dispatch:
@@ -10,7 +10,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: infra/terraform/environments/dev
+        working-directory: infra/terraform
 
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -33,8 +33,8 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan -var-file="dev.tfvars"
+        run: terraform plan -var-file="environments/dev/dev.tfvars"
 
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve -var-file="dev.tfvars"
+#      - name: Terraform Apply
+#        if: github.ref == 'refs/heads/master'
+#        run: terraform apply -auto-approve -var-file="environments/dev/dev.tfvars"
