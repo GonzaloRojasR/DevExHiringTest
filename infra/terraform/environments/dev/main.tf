@@ -27,3 +27,9 @@ resource "aws_ecr_lifecycle_policy" "this" {
     ]
   })
 }
+
+module "eks" {
+  source       = "../../modules/dev-cluster"  
+  cluster_name = var.cluster_name
+}
+

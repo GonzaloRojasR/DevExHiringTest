@@ -7,3 +7,7 @@ output "ecr_repository_name" {
   description = "Nombre del repositorio ECR"
   value       = aws_ecr_repository.this.name
 }
+
+output "eks_cluster_name" {
+  value = module.eks.cluster_name
+}
