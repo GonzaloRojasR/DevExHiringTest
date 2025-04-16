@@ -22,22 +22,11 @@ jobs:
     needs: docker
     uses: ./.github/workflows/template-kustomization.yaml
 
-  deploy-dev:
+  deploy-app:
     uses: ./.github/workflows/template-deploy.yaml
-    if: github.ref == 'refs/heads/master'
     with:
-      env_path: "dev"
-      namespace: "desafio-app"
+      env_path: ${{ github.ref_name == 'master' && 'dev' || 'prod' }}
+      namespace: ${{ github.ref_name == 'master' && 'desafio-app' || 'desafio-app-prod' }}
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-  deploy-prod:
-    uses: ./.github/workflows/template-deploy.yaml
-    if: github.ref == 'refs/heads/main'
-    with:
-      env_path: "prod"
-      namespace: "desafio-app"
-    secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PROD }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PROD }}
