@@ -1,17 +1,7 @@
 controller:
+  replicaCount: 1
   service:
     annotations:
       service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-      service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
-    targetPorts:
-      http: http
-      https: https
-    ports:
-      http: 80
-      https: 443
-
-  extraArgs:
-    default-ssl-certificate: "cert-manager/letsencrypt-prod"
-
-  ingressClassResource:
-    default: true
+  admissionWebhooks:
+    enabled: true
