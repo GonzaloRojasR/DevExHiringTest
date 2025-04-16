@@ -1,0 +1,16 @@
+releases:
+  - name: cert-manager
+    namespace: cert-manager
+    chart: jetstack/cert-manager
+    version: v1.14.3
+    values:
+      - values.yaml
+    createNamespace: true
+    hooks:
+      - events: ["presync"]
+        showlogs: true
+        command: kubectl
+        args:
+          - apply
+          - -f
+          - https://github.com/cert-manager/cert-manager/releases/download/v1.14.3/cert-manager.crds.yaml
