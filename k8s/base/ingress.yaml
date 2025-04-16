@@ -2,15 +2,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: desafio-app-ingress
-  namespace: desafio-app
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  ingressClassName: nginx
   rules:
     - http:
         paths:
-          - path: /
+          - path: /dev
             pathType: Prefix
             backend:
               service:
