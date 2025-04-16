@@ -7,3 +7,4 @@ module "dev" {
   ecr_name     = var.ecr_name
   cluster_name = var.cluster_name
 }
+
