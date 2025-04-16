@@ -69,5 +69,9 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
+      - name: Update kubeconfig for EKS
+        run: aws eks update-kubeconfig --region us-east-1 --name gr-dev-cluster
+
+
       - name: Terraform Apply
         run: terraform apply -auto-approve -var-file="environments/dev/dev.tfvars"
