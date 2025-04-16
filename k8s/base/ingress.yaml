@@ -1,18 +1,14 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: desafio-app
+  name: desafio-app-ingress
+  namespace: desafio-app
   annotations:
-    kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  tls:
-    - hosts:
-        - desafio-app.local
-      secretName: desafio-app-tls
+  ingressClassName: nginx
   rules:
-    - host: desafio-app.local
-      http:
+    - http:
         paths:
           - path: /
             pathType: Prefix

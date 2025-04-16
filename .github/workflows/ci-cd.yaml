@@ -23,6 +23,7 @@ jobs:
     uses: ./.github/workflows/template-kustomization.yaml
 
   deploy-app:
+    needs: kustomize
     uses: ./.github/workflows/template-deploy.yaml
     with:
       env_path: ${{ github.ref_name == 'master' && 'dev' || 'prod' }}
