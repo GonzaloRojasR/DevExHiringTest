@@ -1,0 +1,8 @@
+cloudWatch:
+  enabled: true
+  logGroupName: /aws/containerinsights/eks-cluster/performance
+  region: us-east-1
+  logStreamName: {instance_id}
+  logRetentionDays: 7
+  flushInterval: 5
+  useTagAsCustomMetric: false

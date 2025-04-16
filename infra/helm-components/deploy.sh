@@ -36,15 +36,10 @@ else
   echo "Certificate 'desafio-app-cert' ya existe en namespace ingress-nginx."
 fi
 
-# Monitoring
-create_namespace_if_missing "monitoring"
-
-helm upgrade --install prometheus prometheus-community/prometheus \
-  --namespace monitoring \
+create_namespace_if_missing "amazon-cloudwatch"
+helm repo add aws-observability https://aws.github.io/eks-charts
+helm repo update
+helm upgrade --install cloudwatch-agent aws-observability/aws-cloudwatch-metrics \
+  --namespace amazon-cloudwatch \
   --create-namespace \
-  --values prometheus/values.yaml
-
-helm upgrade --install grafana grafana/grafana \
-  --namespace monitoring \
-  --create-namespace \
-  --values grafana/values.yaml
+  --values cloudwatch/values.yaml
