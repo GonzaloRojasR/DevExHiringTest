@@ -8,9 +8,8 @@ module "vpc" {
   azs            = ["us-east-1a", "us-east-1b"]
   public_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
 
-  enable_dns_hostnames = true
-  enable_dns_support   = true
-
+  enable_dns_hostnames    = true
+  enable_dns_support      = true
   map_public_ip_on_launch = true
 
   tags = {
@@ -19,28 +18,25 @@ module "vpc" {
   }
 }
 
-
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "20.8.4"
 
-  cluster_name    = var.cluster_name
-  cluster_version = "1.29"
-  subnet_ids      = module.vpc.public_subnets
-  vpc_id          = module.vpc.vpc_id
-
-  cluster_endpoint_public_access  = true
-  cluster_endpoint_private_access = true
+  cluster_name                         = var.cluster_name
+  cluster_version                      = "1.29"
+  subnet_ids                           = module.vpc.public_subnets
+  vpc_id                               = module.vpc.vpc_id
+  cluster_endpoint_public_access       = true
+  cluster_endpoint_private_access      = true
   cluster_endpoint_public_access_cidrs = ["0.0.0.0/0"]
 
   eks_managed_node_groups = {
     default = {
-      desired_size = 1
-      max_size     = 1
-      min_size     = 1
-
-      instance_types = ["t3.small"]
-      capacity_type  = "ON_DEMAND"
+      desired_size               = 1
+      max_size                   = 1
+      min_size                   = 1
+      instance_types             = ["t3.small"]
+      capacity_type              = "ON_DEMAND"
       attach_remote_access_policy = true
     }
   }
@@ -51,9 +47,17 @@ module "eks" {
   }
 }
 
+provider "kubernetes" {
+  config_path = "/home/runner/.kube/config" # para GitHub Actions
+}
+
 module "aws_auth" {
   source  = "terraform-aws-modules/eks/aws//modules/aws-auth"
   version = "20.8.4"
+
+  providers = {
+    kubernetes = kubernetes
+  }
 
   manage_aws_auth_configmap = true
 
