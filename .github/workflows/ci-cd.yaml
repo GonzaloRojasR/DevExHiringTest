@@ -23,9 +23,7 @@ jobs:
     uses: ./.github/workflows/template-kustomization.yaml
 
   deploy:
-    needs: kustomize
     uses: ./.github/workflows/template-deploy.yaml
-    secrets:
-      TEST_S: ${{ secrets.TEST_S }}
     with:
-      TEST: ${{ vars.TEST }}    
+      env_path: "k8s/dev"
+      namespace: "desafio-app"
