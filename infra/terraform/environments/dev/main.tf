@@ -1,6 +1,6 @@
 module "ecr" {
   source   = "../../modules/ecr"
-  ecr_name = var.ecr_name
+  name     = var.ecr_name
 }
 
 module "eks" {
