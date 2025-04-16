@@ -1,0 +1,15 @@
+adminUser: admin
+adminPassword: admin
+
+service:
+  type: ClusterIP
+
+resources:
+  limits:
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+persistence:
+  enabled: false

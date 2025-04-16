@@ -35,3 +35,16 @@ if ! kubectl get certificate desafio-app-cert -n ingress-nginx >/dev/null 2>&1; 
 else
   echo "Certificate 'desafio-app-cert' ya existe en namespace ingress-nginx."
 fi
+
+# Monitoring
+create_namespace_if_missing "monitoring"
+
+helm upgrade --install prometheus prometheus-community/prometheus \
+  --namespace monitoring \
+  --create-namespace \
+  --values prometheus/values.yaml
+
+helm upgrade --install grafana grafana/grafana \
+  --namespace monitoring \
+  --create-namespace \
+  --values grafana/values.yaml
