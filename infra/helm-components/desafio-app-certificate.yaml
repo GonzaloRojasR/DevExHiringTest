@@ -5,8 +5,8 @@ metadata:
   namespace: ingress-nginx
 spec:
   secretName: desafio-app-tls
-  duration: 8760h # 1 año
-  renewBefore: 360h # 15 días antes
+  duration: 8760h
+  renewBefore: 360h
   issuerRef:
     name: selfsigned-cluster-issuer
     kind: ClusterIssuer

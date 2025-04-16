@@ -36,6 +36,7 @@ else
   echo "Certificate 'desafio-app-cert' ya existe en namespace ingress-nginx."
 fi
 
+# Agente CloudWatch
 create_namespace_if_missing "amazon-cloudwatch"
 helm repo add aws-observability https://aws.github.io/eks-charts
 helm repo update
