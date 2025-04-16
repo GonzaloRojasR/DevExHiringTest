@@ -3,21 +3,54 @@ name: Template - Deploy
 on:
   workflow_call:
     inputs:
-      TEST:
+      env_path:
         required: true
         type: string
+      namespace:
+        required: true
+        type: string
+      domain:
+        required: false
+        type: string
     secrets:
-      TEST_S:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
         required: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     env:
-      SUPER_SECRET: ${{ secrets.TEST_S }}
-      VAR_TEST: ${{ inputs.TEST }}
+      AWS_REGION: us-east-1
+
     steps:
-      - run: |
-          echo "VAR: $VAR_TEST"
-          echo "SECRET: [$SUPER_SECRET]"
-          echo "LENGTH: ${#SUPER_SECRET}"
+      - uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+
+      - name: Set up Helm (required by some clusters)
+        uses: azure/setup-helm@v3
+
+      - name: Set up kubeconfig for EKS
+        run: |
+          aws eks update-kubeconfig --region $AWS_REGION --name gr-dev-cluster
+
+      - name: Create namespace if missing
+        run: |
+          kubectl get namespace ${{ inputs.namespace }} >/dev/null 2>&1 || kubectl create namespace ${{ inputs.namespace }}
+
+      - name: Deploy using Kustomize
+        run: |
+          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+          sudo mv kustomize /usr/local/bin/kustomize
+          kustomize build ${{ inputs.env_path }} | kubectl apply -n ${{ inputs.namespace }} -f -
