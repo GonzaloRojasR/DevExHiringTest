@@ -29,6 +29,16 @@ module "eks" {
   subnet_ids      = module.vpc.public_subnets
   vpc_id          = module.vpc.vpc_id
   
+  manage_aws_auth_configmap = true
+
+  aws_auth_users = [
+    {
+      userarn  = "arn:aws:iam::027188235773:user/gr-sa-terraform-ci"
+      username = "gr-sa-terraform-ci"
+      groups   = ["system:masters"]
+    }
+  ]
+
   cluster_endpoint_public_access  = true
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access_cidrs = ["0.0.0.0/0"]
