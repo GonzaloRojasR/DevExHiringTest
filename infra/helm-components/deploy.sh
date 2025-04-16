@@ -4,12 +4,14 @@ set -e
 source ./utils.sh
 
 create_namespace_if_missing "cert-manager"
-kubectl apply -f cluster-issuer.yaml
 
 helm upgrade --install cert-manager jetstack/cert-manager \
   --namespace cert-manager \
   --create-namespace \
   --values cert-manager/values.yaml
+
+echo "Esperando a que cert-manager esté disponible..."
+kubectl rollout status deployment/cert-manager -n cert-manager --timeout=120s
 
 create_namespace_if_missing "ingress-nginx"
 
