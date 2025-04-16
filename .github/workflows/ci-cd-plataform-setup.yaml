@@ -24,9 +24,19 @@ jobs:
       - name: Set up Helm
         uses: azure/setup-helm@v3
 
-      - name: Set up kubeconfig for EKS
+      - name: Update kubeconfig using IRSA ServiceAccount (kubectl IRSA)
         run: |
           aws eks update-kubeconfig --region us-east-1 --name gr-dev-cluster
+
+      - name: Patch default SA to use IRSA role (only first time)
+        run: |
+          kubectl annotate serviceaccount default \
+            -n kube-system \
+            eks.amazonaws.com/role-arn=arn:aws:iam::027188235773:role/eks-irsa-kubectl \
+            --overwrite || true
+
+      - name: Wait for SA update (optional but recommended)
+        run: sleep 10
 
       - name: Test cluster connection
         run: |
