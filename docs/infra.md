@@ -29,3 +29,6 @@ Este pipeline realiza la provisión completa de la infraestructura necesaria par
 - Agregar validación automática de estado de recursos críticos post-aplicación (terraform plan + health check).
 - Automatizar el versionado de infraestructura en ambientes controlados.
 
+---
+
+[Volver al README](../README.md)

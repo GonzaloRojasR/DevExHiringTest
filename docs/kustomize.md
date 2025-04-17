@@ -14,3 +14,7 @@ Aplica los manifiestos de Kustomize sobre el clúster de EKS para el entorno cor
 
 ## Mejoras futuras
 - Validación post-deploy con `kubectl rollout status`.
+
+---
+
+[Volver al README](../README.md)

@@ -65,3 +65,7 @@ Para una operación completa, especialmente con recursos de EKS, IAM y KMS, es n
     - Otra cuenta dedicada para el despliegue de servicios (CI/CD).
     - Una cuenta con acceso temporal o de emergencia para configuraciones avanzadas.
 - Automatizar la rotación de credenciales o adoptar OIDC con IRSA para despliegues desde GitHub Actions sin necesidad de claves secretas.
+
+---
+
+[Volver al README](../README.md)

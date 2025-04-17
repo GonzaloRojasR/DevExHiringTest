@@ -18,3 +18,7 @@ Construye la imagen Docker de la aplicación, etiqueta la imagen y la sube a Ama
 ## Mejoras futuras
 - Escaneo de seguridad de imágenes con **Trivy**.
 - Versionado automático con tags Git.
+
+---
+
+[Volver al README](../README.md)

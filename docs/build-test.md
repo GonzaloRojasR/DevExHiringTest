@@ -12,3 +12,7 @@ No requiere configuración adicional. Este workflow se llama automáticamente de
 
 ## Mejoras futuras
 - Incorporar cobertura de código con **SonarQube**.
+
+---
+
+[Volver al README](../README.md)

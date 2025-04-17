@@ -30,3 +30,7 @@ Este pipeline instala y configura los componentes base del clúster necesarios p
 - Migrar el uso de certificados **self-signed** a certificados válidos de **Let's Encrypt** usando ACME, una vez que se disponga de un dominio público.
 - Incluir el despliegue automatizado de herramientas de observabilidad como **Prometheus** y **Grafana**.
 - Considerar la integración de **ArgoCD** para una gestión declarativa y visual de los componentes Helm.
+
+---
+
+[Volver al README](../README.md)
