@@ -56,7 +56,7 @@ Para una operación completa, especialmente con recursos de EKS, IAM y KMS, es n
   "logs:TagResource",
   "ecr:*"
 ]
-
+```
 ---
 
 ## Mejoras futuras
