@@ -9,6 +9,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Render Kustomize with envsubst
+        working-directory: k8s/dev
+        run: |
+          export REGISTRY_IMAGE=027188235773.dkr.ecr.us-east-1.amazonaws.com/desafio-app
+          envsubst < kustomization.yaml > kustomization.rendered.yaml
+          mv kustomization.rendered.yaml kustomization.yaml
+
       - name: Install Kustomize
         run: |
           curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash

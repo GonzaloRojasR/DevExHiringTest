@@ -12,9 +12,9 @@ jobs:
     needs: build-test
     uses: ./.github/workflows/template-build-image.yaml
     secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}      
-      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_DEPLOY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEPLOY }}      
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID_DEPLOY }}
     with:
       AWS_REGION: ${{ vars.AWS_REGION }}
 
@@ -29,5 +29,5 @@ jobs:
       env_path: ${{ github.ref_name == 'master' && 'dev' || 'prod' }}
       namespace: ${{ github.ref_name == 'master' && 'desafio-app' || 'desafio-app-prod' }}
     secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_DEPLOY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEPLOY }}
