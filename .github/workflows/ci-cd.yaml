@@ -2,7 +2,7 @@ name: CI/CD Deploy
 
 on:
   push:
-    branches: [master]
+    branches: [gonzalo-rojas]
 
 jobs:
   build-test:
@@ -26,8 +26,8 @@ jobs:
     needs: kustomize
     uses: ./.github/workflows/template-deploy.yaml
     with:
-      env_path: ${{ github.ref_name == 'master' && 'dev' || 'prod' }}
-      namespace: ${{ github.ref_name == 'master' && 'desafio-app' || 'desafio-app-prod' }}
+      env_path: ${{ github.ref_name == 'gonzalo-rojas' && 'dev' || 'prod' }}
+      namespace: ${{ github.ref_name == 'gonzalo-rojas' && 'desafio-app' || 'desafio-app-prod' }}
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
