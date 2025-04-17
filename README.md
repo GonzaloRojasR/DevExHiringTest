@@ -20,6 +20,8 @@ Este repositorio implementa un flujo de CI/CD automatizado para el despliegue de
 - Los componentes de clúster (cert-manager, ingress-nginx, etc) se gestionan con Helm en la carpeta `infra/helm-components`.
 - Los manifiestos Kubernetes se encuentran en la carpeta `k8s` divididos por entorno (`base`, `dev`, etc).
 - Las variables y secretos para los pipelines se configuran en GitHub Actions bajo `Settings > Secrets and variables > Actions`.
+- Los templates de workflows (.github/workflows) se dejaron localmente por conveniencia. En un entorno real, se recomienda extraerlos a un repositorio separado para fomentar su reutilización entre múltiples proyectos.
+- De igual forma, en un entorno real, la infraestructura debe ser gestionada a nivel de plataforma y no por servicio, para evitar redundancias en los repositorios.
 - No se utilizó un dominio personalizado, ya que el objetivo del despliegue es temporal y con fines de demostración. Por lo tanto, se accede directamente a través del endpoint público generado por el LoadBalancer.
 - Dado que no se cuenta con un dominio válido, se configuró cert-manager con un certificado autofirmado (self-signed). Esto puede generar advertencias de seguridad en el navegador al acceder mediante HTTPS.
 - La aplicación está corriendo y disponible públicamente en el siguiente enlace (vía ingress NGINX + self-signed certificate):
@@ -30,7 +32,6 @@ Este repositorio implementa un flujo de CI/CD automatizado para el despliegue de
 ¡Gracias por revisar este proyecto! Si tienes sugerencias, escribeme a mi correo gorojas92@gmail.com.
 
 ---
-
 
 # Desafío Técnico DevEx
 
