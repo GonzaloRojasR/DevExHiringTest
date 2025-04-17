@@ -1,3 +1,37 @@
+# Documentación CI/CD - Desafio App
+
+Este repositorio implementa un flujo de CI/CD automatizado para el despliegue de una aplicación en AWS EKS, utilizando GitHub Actions, Helm, Kustomize, Docker y Terraform. Esta documentación se encuentra dividida por pipeline para facilitar su comprensión y mantenimiento.
+
+---
+
+## Tabla de contenidos
+- [Pipeline de Build y Test](./docs/build-test.md)
+- [Pipeline de Construcción de Imagen Docker](./docs/build-image.md)
+- [Pipeline de Despliegue Kustomize](./docs/kustomize.md)
+- [Pipeline de Despliegue Final](./docs/deploy.md)
+- [Pipeline de Provisionamiento de Infraestructura (Terraform)](./docs/infra.md)
+- [Pipeline de Componentes Helm (cert-manager / nginx)](./docs/helm-components.md)
+
+---
+
+## Notas adicionales
+
+- La infraestructura está desplegada mediante Terraform en la carpeta `infra/terraform`.
+- Los componentes de clúster (cert-manager, ingress-nginx, etc) se gestionan con Helm en la carpeta `infra/helm-components`.
+- Los manifiestos Kubernetes se encuentran en la carpeta `k8s` divididos por entorno (`base`, `dev`, etc).
+- Las variables y secretos para los pipelines se configuran en GitHub Actions bajo `Settings > Secrets and variables > Actions`.
+- No se utilizó un dominio personalizado, ya que el objetivo del despliegue es temporal y con fines de demostración. Por lo tanto, se accede directamente a través del endpoint público generado por el LoadBalancer.
+- Dado que no se cuenta con un dominio válido, se configuró cert-manager con un certificado autofirmado (self-signed). Esto puede generar advertencias de seguridad en el navegador al acceder mediante HTTPS.
+- La aplicación está corriendo y disponible públicamente en el siguiente enlace (vía ingress NGINX + self-signed certificate):
+    - https://a33eeca975e3b4093b761e58e04dbb30-155de13d035b4c42.elb.us-east-1.amazonaws.com/desafio
+
+---
+
+¡Gracias por revisar este proyecto! Si tienes sugerencias, escribeme a mi correo gorojas92@gmail.com.
+
+---
+
+
 # Desafío Técnico DevEx
 
 Gracias por tu interés en nuestra posición de Experiencia del Desarrollador (DevEx). Como parte del proceso de selección, te pedimos completar el siguiente desafío técnico.
