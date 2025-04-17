@@ -13,15 +13,16 @@ on:
       AWS_REGION:
         required: true
         type: string
-
 jobs:
   docker:
     runs-on: ubuntu-latest
 
     env:
-      AWS_REGION: ${{ inputs.AWS_REGION }}
-      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID_DEPLOY }}
-
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      
     steps:
       - uses: actions/checkout@v3
 
@@ -48,13 +49,6 @@ jobs:
           IMAGE_ID=$(docker images -q $name:latest)
           IMAGE_SIZE=$(docker image inspect $IMAGE_ID --format='{{.Size}}')
           echo "Tamaño aproximado: $((IMAGE_SIZE / 1000000)) MB"
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_DEPLOY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEPLOY }}
-          aws-region: ${{ inputs.AWS_REGION }}
 
       - name: Login en ECR
         run: |
